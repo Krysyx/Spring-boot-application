@@ -1,11 +1,9 @@
 package com.springtourofheroes.Classes;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.springtourofheroes.Models.Spells;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Document(collection = "custom")
@@ -18,7 +16,7 @@ public class CustomHero {
     private Long HP;
     @NotNull
     private Long spellpower;
-    private Integer mana;
+    private int mana;
     private Spells spells;
 
     public String getId() {
@@ -53,7 +51,7 @@ public class CustomHero {
         this.spellpower = spellpower;
     }
 
-    public Integer getMana() {
+    public int getMana() {
         return mana;
     }
 
