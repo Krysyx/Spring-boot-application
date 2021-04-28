@@ -2,6 +2,7 @@ package com.springtourofheroes.Classes;
 
 import com.springtourofheroes.Models.Spells;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ public class CustomHero {
     @Id
     private String id;
     @NotNull
+    @Indexed(unique = true)
     private String name;
     @NotNull
     private Long HP;

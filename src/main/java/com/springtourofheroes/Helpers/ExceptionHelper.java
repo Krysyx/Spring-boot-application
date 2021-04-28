@@ -1,5 +1,6 @@
 package com.springtourofheroes.Helpers;
 
+import com.mongodb.MongoWriteException;
 import com.springtourofheroes.Errors.ErrorHandlerDomain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,14 @@ public class ExceptionHelper {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorHandlerDomain> handleMessageNotReadableException(HttpMessageNotReadableException exception) {
-        logger.error("Http message not readable : " + exception.getMessage());
+        logger.warn("Http message not readable : " + exception.getMessage());
+        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MongoWriteException.class)
+    public ResponseEntity<ErrorHandlerDomain> handleMongoWriteException(MongoWriteException exception) {
+        logger.error("Duplicate key found : " + exception.getMessage());
         ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }

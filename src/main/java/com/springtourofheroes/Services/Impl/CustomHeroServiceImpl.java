@@ -11,6 +11,7 @@ public class CustomHeroServiceImpl implements CustomHeroService {
     @Autowired
     private CustomHeroRepository customHeroRepository;
 
+    @Override
     public CustomHero createCustomHero(CustomHero customHero) {
         return this.customHeroRepository.save(customHero);
     }
