@@ -13,7 +13,7 @@ public class HeroController {
     @Autowired
     HeroService heroService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Hero> findAll() {
         return this.heroService.getHeroes();
     }
