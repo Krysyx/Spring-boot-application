@@ -15,9 +15,9 @@ public class CustomHero {
     @Indexed(unique = true)
     private String name;
     @NotNull
-    private Long HP;
+    private int hp;
     @NotNull
-    private Long spellpower;
+    private int spellpower;
     private int mana;
     private Spells spells;
 
@@ -37,28 +37,28 @@ public class CustomHero {
         this.name = name;
     }
 
-    public Long getHP() {
-        return HP;
-    }
-
-    public void setHP(Long HP) {
-        this.HP = HP;
-    }
-
-    public Long getSpellpower() {
-        return spellpower;
-    }
-
-    public void setSpellpower(Long spellpower) {
-        this.spellpower = spellpower;
-    }
-
     public int getMana() {
         return mana;
     }
 
     public void setMana(Integer mana) {
         this.mana = mana;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getSpellpower() {
+        return spellpower;
+    }
+
+    public void setSpellpower(int spellpower) {
+        this.spellpower = spellpower;
     }
 
     public Spells getSpells() {
