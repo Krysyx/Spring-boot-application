@@ -29,4 +29,9 @@ public class CustomHeroesController {
     public CustomHero create(@Valid @RequestBody CustomHero customHero) {
         return this.customHeroService.createCustomHero(customHero);
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        this.customHeroService.deleteCustomHero(id);
+    }
 }

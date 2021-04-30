@@ -28,4 +28,9 @@ public class CustomHeroServiceImpl implements CustomHeroService {
     public Optional<CustomHero> getCustomHero(String id) {
         return this.customHeroRepository.findById(id);
     }
+
+    @Override
+    public void deleteCustomHero(String id) {
+        this.customHeroRepository.deleteById(id);
+    }
 }

@@ -8,6 +8,10 @@ import java.util.Optional;
 
 public interface CustomHeroRepository extends MongoRepository<CustomHero, String> {
     CustomHero save(CustomHero customHero);
+
     List<CustomHero> findAll();
+
     Optional<CustomHero> findById(String id);
+
+    void deleteById(String id);
 }

@@ -11,4 +11,6 @@ public interface CustomHeroService {
     abstract CustomHero createCustomHero(CustomHero customHero);
 
     abstract Optional<CustomHero> getCustomHero(String id);
+
+    abstract void deleteCustomHero(String id);
 }
