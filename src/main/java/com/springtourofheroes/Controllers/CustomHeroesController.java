@@ -2,13 +2,12 @@ package com.springtourofheroes.Controllers;
 
 import com.springtourofheroes.Classes.CustomHero;
 import com.springtourofheroes.Services.CustomHeroService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/custom")
@@ -19,6 +18,11 @@ public class CustomHeroesController {
     @GetMapping("")
     public List<CustomHero> getCustomHeroes() {
         return this.customHeroService.getCustomHeroes();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<CustomHero> getCustomHero(@PathVariable String id) {
+        return this.customHeroService.getCustomHero(id);
     }
 
     @PostMapping("/create")

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomHeroServiceImpl implements CustomHeroService {
@@ -21,5 +22,10 @@ public class CustomHeroServiceImpl implements CustomHeroService {
     @Override
     public List<CustomHero> getCustomHeroes() {
         return this.customHeroRepository.findAll();
+    }
+
+    @Override
+    public Optional<CustomHero> getCustomHero(String id) {
+        return this.customHeroRepository.findById(id);
     }
 }
