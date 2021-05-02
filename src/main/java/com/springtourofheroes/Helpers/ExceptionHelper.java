@@ -20,7 +20,7 @@ public class ExceptionHelper {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorHandlerDomain> handleValidationException(MethodArgumentNotValidException exception) {
         logger.error("Invalid input received : " + exception.getMessage());
-        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
+        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "Invalid input received", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
@@ -28,21 +28,21 @@ public class ExceptionHelper {
     @ExceptionHandler(UnexpectedTypeException.class)
     public ResponseEntity<ErrorHandlerDomain> handleTypeException(UnexpectedTypeException exception) {
         logger.error("Invalid type : " + exception.getMessage());
-        ErrorHandlerDomain errors = new ErrorHandlerDomain(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
+        ErrorHandlerDomain errors = new ErrorHandlerDomain(exception.getMessage(), "Invalid value type received", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorHandlerDomain> handleMessageNotReadableException(HttpMessageNotReadableException exception) {
         logger.warn("Http message not readable : " + exception.getMessage());
-        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
+        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "Http message not readable", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MongoWriteException.class)
     public ResponseEntity<ErrorHandlerDomain> handleMongoWriteException(MongoWriteException exception) {
         logger.error("Duplicate key found : " + exception.getMessage());
-        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
+        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "An hero with this name already exists", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 

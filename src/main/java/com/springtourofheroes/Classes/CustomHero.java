@@ -18,6 +18,7 @@ public class CustomHero {
     private int hp;
     @NotNull
     private int spellpower;
+    @NotNull
     private int mana;
     private Spells spells;
 
