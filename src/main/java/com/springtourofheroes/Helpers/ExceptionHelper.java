@@ -2,6 +2,7 @@ package com.springtourofheroes.Helpers;
 
 import com.mongodb.MongoWriteException;
 import com.springtourofheroes.Errors.ErrorHandlerDomain;
+import com.springtourofheroes.Exceptions.UnmatchedPasswordsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -44,6 +45,13 @@ public class ExceptionHelper {
         logger.error("Duplicate key found : " + exception.getMessage());
         ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "An hero with this name already exists", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnmatchedPasswordsException.class)
+    public ResponseEntity<ErrorHandlerDomain> handleUnmatchedPasswordException(UnmatchedPasswordsException exception) {
+        logger.error("Passwords did not match : " + exception.getMessage());
+        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "Passwords must match", HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<ErrorHandlerDomain>(error, HttpStatus.BAD_REQUEST);
     }
 
 }

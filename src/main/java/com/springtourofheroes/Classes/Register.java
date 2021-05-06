@@ -1,9 +1,12 @@
 package com.springtourofheroes.Classes;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Document(collection = "users")
@@ -16,6 +19,7 @@ public class Register {
     private String lastname;
     @Indexed(unique = true)
     @NotNull
+    @Email
     private String email;
     private int age;
     private int phone;
@@ -25,6 +29,7 @@ public class Register {
     private String confirmpassword;
     private String city;
     private String address;
+    private boolean activated;
 
     public Register(String username, String firstname, String lastname, String email, int age, int phone, String password, String confirmpassword, String city, String address) {
         this.username = username;
@@ -37,6 +42,7 @@ public class Register {
         this.confirmpassword = confirmpassword;
         this.city = city;
         this.address = address;
+        this.activated = false;
     }
 
     public String getId() {
@@ -125,5 +131,13 @@ public class Register {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 }
