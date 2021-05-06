@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class RegisterServiceImpl implements RegisterService {
     @Autowired
-    private static RegisterRepository registerRepository;
+    private RegisterRepository registerRepository;
 
     @Override
     public Register register(Register form) {
-        return registerRepository.save(form);
+        return this.registerRepository.save(form);
     }
 }

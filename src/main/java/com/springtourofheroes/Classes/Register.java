@@ -1,7 +1,5 @@
 package com.springtourofheroes.Classes;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -30,6 +28,9 @@ public class Register {
     private String city;
     private String address;
     private boolean activated;
+
+    public Register() {
+    }
 
     public Register(String username, String firstname, String lastname, String email, int age, int phone, String password, String confirmpassword, String city, String address) {
         this.username = username;

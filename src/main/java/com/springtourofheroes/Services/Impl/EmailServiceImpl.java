@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class EmailServiceImpl implements EmailService {
 
     @Autowired
-    private static JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
 
     public void sendMessage(String to, String subject, String text) {
         var message = new SimpleMailMessage();
@@ -19,7 +19,7 @@ public class EmailServiceImpl implements EmailService {
         message.setSubject(subject);
         message.setText(text);
 
-        javaMailSender.send(message);
+        this.javaMailSender.send(message);
     }
 
 }

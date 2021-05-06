@@ -16,18 +16,19 @@ import javax.validation.Valid;
 @RequestMapping(value = "/api/register")
 public class RegisterController {
     @Autowired
-    private static RegisterService registerService;
+    private RegisterService registerService;
 
     @Autowired
-    private static PasswordHelper passwordHelper;
+    private PasswordHelper passwordHelper;
 
     @PostMapping("/create")
-    public String register(@Valid @RequestBody Register form) {
-        if (!passwordHelper.compare(form.getPassword(), form.getConfirmpassword())) {
+    public void register(@Valid @RequestBody Register form) {
+        System.out.println(form);
+        System.out.println(this.passwordHelper.compare(form.getPassword(), form.getConfirmpassword()));
+        if (!this.passwordHelper.compare(form.getPassword(), form.getConfirmpassword())) {
             throw new UnmatchedPasswordsException("Passwords do not match");
         }
-
-        Register createdAccount = registerService.register(form);
-        return "Account" + createdAccount.getUsername() + "successfully created";
+//        Register createdAccount = registerService.register(form);
+//        return "Account" + createdAccount.getUsername() + "successfully created. Please verify your email to activate your account";
     }
 }
