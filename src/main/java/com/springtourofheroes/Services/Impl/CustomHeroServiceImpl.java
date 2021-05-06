@@ -4,12 +4,12 @@ import com.springtourofheroes.Classes.CustomHero;
 import com.springtourofheroes.Repositories.CustomHeroRepository;
 import com.springtourofheroes.Services.CustomHeroService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Component
 public class CustomHeroServiceImpl implements CustomHeroService {
     @Autowired
     private CustomHeroRepository customHeroRepository;

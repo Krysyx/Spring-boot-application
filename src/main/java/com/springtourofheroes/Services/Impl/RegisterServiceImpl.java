@@ -4,9 +4,9 @@ import com.springtourofheroes.Classes.Register;
 import com.springtourofheroes.Repositories.RegisterRepository;
 import com.springtourofheroes.Services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private static RegisterRepository registerRepository;
