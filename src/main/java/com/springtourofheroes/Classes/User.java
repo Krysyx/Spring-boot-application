@@ -8,7 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Document(collection = "users")
-public class Register {
+public class User {
     @Id
     private String id;
     @NotNull
@@ -29,10 +29,10 @@ public class Register {
     private String address;
     private boolean activated;
 
-    public Register() {
+    public User() {
     }
 
-    public Register(String username, String firstname, String lastname, String email, int age, int phone, String password, String confirmpassword, String city, String address) {
+    public User(String username, String firstname, String lastname, String email, int age, int phone, String password, String confirmpassword, String city, String address) {
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;

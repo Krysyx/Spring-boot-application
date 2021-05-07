@@ -2,7 +2,7 @@ package com.springtourofheroes.Controllers;
 
 import com.springtourofheroes.Classes.AccountActivationEmail;
 import com.springtourofheroes.Classes.ConfirmationToken;
-import com.springtourofheroes.Classes.Register;
+import com.springtourofheroes.Classes.User;
 import com.springtourofheroes.Exceptions.UnmatchedPasswordsException;
 import com.springtourofheroes.Helpers.PasswordHelper;
 import com.springtourofheroes.Helpers.RandomStringGenerator;
@@ -31,23 +31,21 @@ public class RegisterController {
     private TokenService tokenService;
 
     @PostMapping("/create")
-    public void register(@Valid @RequestBody Register form) {
-        if (!PasswordHelper.compare(form.getPassword(), form.getConfirmpassword())) {
+    public void register(@Valid @RequestBody User user) {
+        if (!PasswordHelper.compare(user.getPassword(), user.getConfirmpassword())) {
             throw new UnmatchedPasswordsException("Passwords do not match");
         }
 
-        Register createdAccount = this.registerService.register(form);
-
-        String confirmationToken = RandomStringGenerator.generateString();
+        User createdUser = this.registerService.register(user);
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expireAt = LocalDateTime.now().plusHours(24);
 
-        ConfirmationToken token = new ConfirmationToken(confirmationToken, createdAt, expireAt, createdAccount.getId());
+        ConfirmationToken token = new ConfirmationToken(RandomStringGenerator.generateString(), createdAt, expireAt, createdUser.getId());
         ConfirmationToken createdToken = this.tokenService.createToken(token);
-        AccountActivationEmail activation = new AccountActivationEmail(createdAccount.getEmail(), createdToken.getToken());
 
-        this.emailService.sendMessage(activation.getEmail(), activation.getSubject(), activation.getText());
+        AccountActivationEmail activation = new AccountActivationEmail(createdToken.getToken());
+        this.emailService.sendMessage(createdUser.getEmail(), activation.getSubject(), activation.getText());
 
-//        return "Account" + createdAccount.getUsername() + "successfully created. Please verify your email to activate your account";
+//        return "Account" + createdUser.getUsername() + "successfully created. Please verify your email to activate your account";
     }
 }
