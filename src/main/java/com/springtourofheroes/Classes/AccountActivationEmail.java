@@ -9,11 +9,11 @@ public class AccountActivationEmail {
     private String email;
     @Value(value = "Account activation")
     private String subject;
-    //    @Value(value = "There is one last step you need to do in order to activate your account : " + "http://127.0.0.1:8080/account/activation?token=" + )
     private String text;
 
-    public AccountActivationEmail(@Email String email) {
+    public AccountActivationEmail(@Email String email, String confirmationToken) {
         this.email = email;
+        this.text = "There is one last step you need to do in order to activate your account : " + "http://127.0.0.1:8080/account/activation?token=" + confirmationToken;
     }
 
     public String getEmail() {
