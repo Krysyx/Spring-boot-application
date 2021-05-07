@@ -3,6 +3,7 @@ package com.springtourofheroes.Controllers;
 import com.springtourofheroes.Classes.Register;
 import com.springtourofheroes.Exceptions.UnmatchedPasswordsException;
 import com.springtourofheroes.Helpers.PasswordHelper;
+import com.springtourofheroes.Services.EmailService;
 import com.springtourofheroes.Services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,16 +20,16 @@ public class RegisterController {
     private RegisterService registerService;
 
     @Autowired
-    private PasswordHelper passwordHelper;
+    private EmailService emailService;
 
     @PostMapping("/create")
     public void register(@Valid @RequestBody Register form) {
-        System.out.println(form);
-        System.out.println(this.passwordHelper.compare(form.getPassword(), form.getConfirmpassword()));
-        if (!this.passwordHelper.compare(form.getPassword(), form.getConfirmpassword())) {
+        if (!PasswordHelper.compare(form.getPassword(), form.getConfirmpassword())) {
             throw new UnmatchedPasswordsException("Passwords do not match");
         }
-//        Register createdAccount = registerService.register(form);
+        Register createdAccount = this.registerService.register(form);
+//        var email = new AccountActivationEmail(createdAccount.getEmail())
+//        this.emailService.sendMessage(createdAccount.getEmail(), );
 //        return "Account" + createdAccount.getUsername() + "successfully created. Please verify your email to activate your account";
     }
 }
