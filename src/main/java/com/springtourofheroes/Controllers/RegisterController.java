@@ -44,7 +44,7 @@ public class RegisterController {
         ConfirmationToken createdToken = this.tokenService.createToken(token);
 
         AccountActivationEmail activation = new AccountActivationEmail(createdToken.getToken());
-        this.emailService.sendMessage(createdUser.getEmail(), activation.getSubject(), activation.getText());
+        this.emailService.sendMessage(createdUser.getEmail(), activation.getSUBJECT(), activation.getText());
 
 //        return "Account" + createdUser.getUsername() + "successfully created. Please verify your email to activate your account";
     }
