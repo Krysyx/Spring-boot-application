@@ -1,8 +1,8 @@
 package com.springtourofheroes.Controllers;
 
-import com.springtourofheroes.Classes.AccountActivationEmail;
 import com.springtourofheroes.Classes.ConfirmationToken;
 import com.springtourofheroes.Classes.User;
+import com.springtourofheroes.Helpers.MailLinkConfigurer;
 import com.springtourofheroes.Exceptions.UnmatchedPasswordsException;
 import com.springtourofheroes.Helpers.PasswordHelper;
 import com.springtourofheroes.Helpers.RandomStringGenerator;
@@ -30,6 +30,9 @@ public class RegisterController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private MailLinkConfigurer mailLinkConfigurer;
+
     @PostMapping("/create")
     public void register(@Valid @RequestBody User user) {
         if (!PasswordHelper.compare(user.getPassword(), user.getConfirmpassword())) {
@@ -42,10 +45,11 @@ public class RegisterController {
 
         ConfirmationToken token = new ConfirmationToken(RandomStringGenerator.generateString(), createdAt, expireAt, createdUser.getId());
         ConfirmationToken createdToken = this.tokenService.createToken(token);
+        System.out.println(mailLinkConfigurer.getEmailLink(createdToken.getToken()));
 
-        AccountActivationEmail activation = new AccountActivationEmail(createdToken.getToken());
-        System.out.println(activation.getSUBJECT());
-        this.emailService.sendMessage(createdUser.getEmail(), activation.getSUBJECT(), activation.getText());
+
+//        AccountActivationEmail activation = new AccountActivationEmail(createdToken.getToken());
+//        this.emailService.sendMessage(createdUser.getEmail(), activation.getSUBJECT(), activation.getText());
 
 //        return "Account" + createdUser.getUsername() + "successfully created. Please verify your email to activate your account";
     }
