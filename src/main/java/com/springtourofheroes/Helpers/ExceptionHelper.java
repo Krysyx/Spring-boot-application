@@ -57,7 +57,7 @@ public class ExceptionHelper {
 
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<ErrorHandlerDomain> handleMessagingException(MessagingException exception) {
-        logger.error(exception.getMessage());
+        logger.error("An email sending error occured : " + exception.getMessage());
         ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "An error occured while trying to send an email", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

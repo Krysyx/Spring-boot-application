@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface RegisterService {
-    abstract User register(User form);
+    abstract User register(User user);
 }

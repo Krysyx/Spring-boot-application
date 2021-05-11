@@ -11,7 +11,6 @@ import javax.mail.internet.MimeMessage;
 
 @Component
 public class EmailServiceImpl implements EmailService {
-
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -20,8 +19,9 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
         messageHelper.setTo(to);
+        messageHelper.setFrom("no-reply@springboot.com");
         messageHelper.setSubject(subject);
-        messageHelper.setText(text);
+        messageHelper.setText(text, true);
         javaMailSender.send(message);
     }
 
