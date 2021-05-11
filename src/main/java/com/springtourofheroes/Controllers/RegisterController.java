@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 
@@ -35,7 +36,7 @@ public class RegisterController {
     private MailLinkGenerator mailLinkGenerator;
 
     @PostMapping("/create")
-    public void register(@Valid @RequestBody User user) {
+    public void register(@Valid @RequestBody User user) throws MessagingException {
         if (!PasswordHelper.compare(user.getPassword(), user.getConfirmpassword())) {
             throw new UnmatchedPasswordsException("Passwords do not match");
         }
@@ -48,9 +49,7 @@ public class RegisterController {
         ConfirmationToken createdToken = this.tokenService.createToken(token);
 
         AccountActivationEmail activation = new AccountActivationEmail(mailLinkGenerator.getEmailLink(createdToken.getToken()));
-        System.out.println(activation.getText());
-
-//        this.emailService.sendMessage(createdUser.getEmail(), activation.getSUBJECT(), activation.getText());
+        this.emailService.sendMessage(createdUser.getEmail(), activation.getSUBJECT(), activation.getText());
 //        return "Account" + createdUser.getUsername() + "successfully created. Please verify your email to activate your account";
     }
 }

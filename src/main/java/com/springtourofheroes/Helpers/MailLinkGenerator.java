@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MailLinkGenerator {
-
     @Value("${mail.link}")
     private String emailLink;
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.mail.MessagingException;
 import javax.validation.UnexpectedTypeException;
 
 @RestControllerAdvice
@@ -52,6 +53,13 @@ public class ExceptionHelper {
         logger.error("Passwords did not match : " + exception.getMessage());
         ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "Passwords must match", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<ErrorHandlerDomain>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MessagingException.class)
+    public ResponseEntity<ErrorHandlerDomain> handleMessagingException(MessagingException exception) {
+        logger.error(exception.getMessage());
+        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "An error occured while trying to send an email", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
