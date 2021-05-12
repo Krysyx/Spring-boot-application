@@ -5,5 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface TokenService {
-    abstract ConfirmationToken createToken(ConfirmationToken confirmationToken);
+    ConfirmationToken createToken(ConfirmationToken confirmationToken);
+
+    ConfirmationToken verify(String token);
 }

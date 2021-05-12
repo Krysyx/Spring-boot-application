@@ -15,4 +15,9 @@ public class TokenServiceImpl implements TokenService {
     public ConfirmationToken createToken(ConfirmationToken confirmationToken) {
         return this.tokenRepository.save(confirmationToken);
     }
+
+    @Override
+    public ConfirmationToken verify(String token) {
+        return this.tokenRepository.findByToken(token);
+    }
 }

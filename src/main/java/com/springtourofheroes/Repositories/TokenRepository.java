@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TokenRepository extends MongoRepository<ConfirmationToken, String> {
     ConfirmationToken save(ConfirmationToken confirmationToken);
+
+    ConfirmationToken findByToken(String token);
 }

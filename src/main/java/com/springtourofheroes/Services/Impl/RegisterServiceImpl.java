@@ -1,5 +1,6 @@
 package com.springtourofheroes.Services.Impl;
 
+import com.springtourofheroes.Classes.ConfirmationToken;
 import com.springtourofheroes.Classes.User;
 import com.springtourofheroes.Exceptions.UnmatchedPasswordsException;
 import com.springtourofheroes.Helpers.PasswordHelper;
