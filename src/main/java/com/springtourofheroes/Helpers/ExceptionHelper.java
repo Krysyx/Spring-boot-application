@@ -17,7 +17,7 @@ import javax.validation.UnexpectedTypeException;
 
 @RestControllerAdvice
 public class ExceptionHelper {
-    private static Logger logger = LoggerFactory.getLogger(ExceptionHelper.class);
+    private static Logger logger = LoggerHelper.getLogger(ExceptionHelper.class);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorHandlerDomain> handleValidationException(MethodArgumentNotValidException exception) {

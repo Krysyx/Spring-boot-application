@@ -14,10 +14,7 @@ import com.springtourofheroes.Services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
@@ -38,17 +35,23 @@ public class RegisterController {
     @Autowired
     private MailLinkGenerator mailLinkGenerator;
 
+    @GetMapping("/test")
+    public void test() {
+        System.out.println("TEST METHOD CALLED");
+    }
+
     @PostMapping("/create")
-    public String register(@Valid @RequestBody User user) throws MessagingException {
-        User createdUser = this.registerService.register(user);
+    public void register(@Valid @RequestBody User user) throws MessagingException {
+        System.out.println("METHOD CALLED");
+//        User createdUser = this.registerService.register(user);
 
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expireAt = LocalDateTime.now().plusHours(24);
-        ConfirmationToken token = new ConfirmationToken(RandomStringGenerator.generateString(), createdAt, expireAt, createdUser.getId());
-        ConfirmationToken createdToken = this.tokenService.createToken(token);
-
-        AccountActivationEmail activation = new AccountActivationEmail(mailLinkGenerator.getEmailLink(createdToken.getToken()));
-        this.emailService.sendMessage(createdUser.getEmail(), activation.getSUBJECT(), activation.getText());
-        return "Account " + createdUser.getUsername() + " successfully created. Please verify your email to activate your account";
+//        LocalDateTime createdAt = LocalDateTime.now();
+//        LocalDateTime expireAt = LocalDateTime.now().plusHours(24);
+//        ConfirmationToken token = new ConfirmationToken(RandomStringGenerator.generateString(), createdAt, expireAt, createdUser.getId());
+//        ConfirmationToken createdToken = this.tokenService.createToken(token);
+//
+//        AccountActivationEmail activation = new AccountActivationEmail(mailLinkGenerator.getEmailLink(createdToken.getToken()));
+//        this.emailService.sendMessage(createdUser.getEmail(), activation.getSUBJECT(), activation.getText());
+//        return "Account " + createdUser.getUsername() + " successfully created. Please verify your email to activate your account";
     }
 }
