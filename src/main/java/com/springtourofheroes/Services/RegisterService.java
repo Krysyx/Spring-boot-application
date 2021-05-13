@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface RegisterService {
     User register(User user);
 
-    Optional<User> findById(String id);
+    User findById(String id);
 }

@@ -2,6 +2,7 @@ package com.springtourofheroes.Services.Impl;
 
 import com.springtourofheroes.Classes.ConfirmationToken;
 import com.springtourofheroes.Classes.User;
+import com.springtourofheroes.Exceptions.NotFoundException;
 import com.springtourofheroes.Exceptions.UnmatchedPasswordsException;
 import com.springtourofheroes.Helpers.PasswordHelper;
 import com.springtourofheroes.Repositories.RegisterRepository;
@@ -30,7 +31,13 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    public Optional<User> findById(String id) {
-        return this.registerRepository.findById(id);
+    public User findById(String id) {
+        Optional<User> user = this.registerRepository.findById(id);
+
+        if (user.isEmpty()) {
+            throw new NotFoundException("User does not exist");
+        }
+
+        return user.get();
     }
 }
