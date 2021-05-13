@@ -3,6 +3,8 @@ package com.springtourofheroes.Controllers;
 import com.springtourofheroes.Classes.AccountActivationEmail;
 import com.springtourofheroes.Classes.ConfirmationToken;
 import com.springtourofheroes.Classes.User;
+import com.springtourofheroes.Exceptions.NotFoundException;
+import com.springtourofheroes.Exceptions.TokenExpiredException;
 import com.springtourofheroes.Helpers.MailLinkGenerator;
 import com.springtourofheroes.Helpers.RandomStringGenerator;
 import com.springtourofheroes.Services.EmailService;
@@ -15,6 +17,7 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/register")
@@ -46,8 +49,22 @@ public class RegisterController {
     }
 
     @GetMapping("/verify")
-    public void verify(@NotNull @RequestParam String token) {
+    public String verify(@NotNull @RequestParam String token) {
+        LocalDateTime now = LocalDateTime.now();
         ConfirmationToken confirmationToken = this.tokenService.verify(token);
-        System.out.println(confirmationToken);
+
+        if (now.isAfter(confirmationToken.getExpireAt())) {
+            throw new TokenExpiredException("This link is not valid anymore. Please sign in again in order to get a new one");
+        }
+
+        Optional<User> user = this.registerService.findById(confirmationToken.getUser_id());
+
+        if (user.isEmpty()) {
+            throw new NotFoundException("User does not exist");
+        }
+
+        user.get().setActivated(true);
+        this.registerService.register(user.get());
+        return "Account successfully activated";
     }
 }

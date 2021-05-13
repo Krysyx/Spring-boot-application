@@ -9,6 +9,8 @@ import com.springtourofheroes.Services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class RegisterServiceImpl implements RegisterService {
     @Autowired
@@ -25,5 +27,10 @@ public class RegisterServiceImpl implements RegisterService {
 
         user.setPassword(passwordHelper.encode(user.getPassword()));
         return this.registerRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findById(String id) {
+        return this.registerRepository.findById(id);
     }
 }

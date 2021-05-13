@@ -2,9 +2,10 @@ package com.springtourofheroes.Helpers;
 
 import com.mongodb.MongoWriteException;
 import com.springtourofheroes.Errors.ErrorHandlerDomain;
+import com.springtourofheroes.Exceptions.NotFoundException;
+import com.springtourofheroes.Exceptions.TokenExpiredException;
 import com.springtourofheroes.Exceptions.UnmatchedPasswordsException;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -60,6 +61,20 @@ public class ExceptionHelper {
         logger.error("An email sending error occured : " + exception.getMessage());
         ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "An error occured while trying to send an email", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<ErrorHandlerDomain> handleTokenExpiredException(TokenExpiredException exception) {
+        logger.error("Invalid token provided : " + exception.getMessage());
+        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "An invalid token was provided", HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorHandlerDomain> handleNotFoundException(NotFoundException exception) {
+        logger.error("Not found exception : " + exception.getMessage());
+        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "This user does not exist", HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }
