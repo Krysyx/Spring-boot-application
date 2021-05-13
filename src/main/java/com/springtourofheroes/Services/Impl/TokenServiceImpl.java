@@ -18,6 +18,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public ConfirmationToken createToken(ConfirmationToken confirmationToken) {
+        System.out.println("create token");
         return this.tokenRepository.save(confirmationToken);
     }
 
