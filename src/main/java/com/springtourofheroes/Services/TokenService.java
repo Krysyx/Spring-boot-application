@@ -8,4 +8,6 @@ public interface TokenService {
     ConfirmationToken createToken(ConfirmationToken confirmationToken);
 
     ConfirmationToken verify(String token);
+
+    boolean verifyTokenValidity(String token);
 }

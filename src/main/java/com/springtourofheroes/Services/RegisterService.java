@@ -8,4 +8,6 @@ public interface RegisterService {
     User register(User user);
 
     User findById(String id);
+
+    User validate(User user);
 }

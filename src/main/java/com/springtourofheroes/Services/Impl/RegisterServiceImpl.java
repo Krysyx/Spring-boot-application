@@ -1,6 +1,5 @@
 package com.springtourofheroes.Services.Impl;
 
-import com.springtourofheroes.Classes.ConfirmationToken;
 import com.springtourofheroes.Classes.User;
 import com.springtourofheroes.Exceptions.NotFoundException;
 import com.springtourofheroes.Exceptions.UnmatchedPasswordsException;
@@ -39,5 +38,10 @@ public class RegisterServiceImpl implements RegisterService {
         }
 
         return user.get();
+    }
+
+    @Override
+    public User validate(User user) {
+        return this.registerRepository.save(user);
     }
 }

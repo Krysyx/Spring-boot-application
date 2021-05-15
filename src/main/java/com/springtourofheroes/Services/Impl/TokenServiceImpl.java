@@ -39,4 +39,10 @@ public class TokenServiceImpl implements TokenService {
 
         return validatedToken;
     }
+
+    @Override
+    public boolean verifyTokenValidity(String t) {
+        Optional<ConfirmationToken> token = this.tokenRepository.findByToken(t);
+        return token.isPresent();
+    }
 }

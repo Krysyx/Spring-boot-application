@@ -8,10 +8,7 @@ import com.springtourofheroes.Helpers.RandomStringGenerator;
 import com.springtourofheroes.Services.EmailService;
 import com.springtourofheroes.Services.RegisterService;
 import com.springtourofheroes.Services.TokenService;
-import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -39,8 +36,7 @@ public class RegisterController {
         User createdUser = this.registerService.register(user);
 
         LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expireAt = LocalDateTime.now().plusMinutes(1);
-//      LocalDateTime expireAt = LocalDateTime.now().plusHours(24);
+        LocalDateTime expireAt = LocalDateTime.now().plusHours(24);
         ConfirmationToken token = new ConfirmationToken(RandomStringGenerator.generateString(), createdAt, expireAt, createdUser.getId());
         ConfirmationToken createdToken = this.tokenService.createToken(token);
 
@@ -51,11 +47,16 @@ public class RegisterController {
 
     @GetMapping("/verify")
     public String verify(@NotNull @RequestParam String token) {
-        System.out.println("Verify Account method called");
         ConfirmationToken confirmationToken = this.tokenService.verify(token);
         User user = this.registerService.findById(confirmationToken.getUser_id());
         user.setActivated(true);
-        this.registerService.register(user);
+        this.registerService.validate(user);
         return "Account successfully activated";
     }
+
+    @GetMapping("/validity/{token}")
+    public boolean verifyTokenValidity(@PathVariable String token) {
+        return this.tokenService.verifyTokenValidity(token);
+    }
+
 }

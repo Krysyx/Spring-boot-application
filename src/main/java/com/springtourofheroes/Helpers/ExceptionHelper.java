@@ -73,7 +73,7 @@ public class ExceptionHelper {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorHandlerDomain> handleNotFoundException(NotFoundException exception) {
         logger.error("Not found exception : " + exception.getMessage());
-        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "This user does not exist", HttpStatus.BAD_REQUEST.value());
+        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), exception.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
