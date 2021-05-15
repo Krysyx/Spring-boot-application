@@ -11,4 +11,6 @@ public interface TokenRepository extends MongoRepository<ConfirmationToken, Stri
     ConfirmationToken save(ConfirmationToken confirmationToken);
 
     Optional<ConfirmationToken> findByToken(String token);
+
+    void deleteById(String id);
 }

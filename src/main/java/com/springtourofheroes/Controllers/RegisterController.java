@@ -51,6 +51,7 @@ public class RegisterController {
 
     @GetMapping("/verify")
     public String verify(@NotNull @RequestParam String token) {
+        System.out.println("Verify Account method called");
         ConfirmationToken confirmationToken = this.tokenService.verify(token);
         User user = this.registerService.findById(confirmationToken.getUser_id());
         user.setActivated(true);

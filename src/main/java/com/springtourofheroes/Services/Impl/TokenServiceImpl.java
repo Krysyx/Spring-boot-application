@@ -18,23 +18,25 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public ConfirmationToken createToken(ConfirmationToken confirmationToken) {
-        System.out.println("create token");
         return this.tokenRepository.save(confirmationToken);
     }
 
     @Override
-    public ConfirmationToken verify(String token) {
+    public ConfirmationToken verify(String t) {
         LocalDateTime now = LocalDateTime.now();
-        Optional<ConfirmationToken> result = this.tokenRepository.findByToken(token);
+        Optional<ConfirmationToken> token = this.tokenRepository.findByToken(t);
 
-        if (result.isEmpty()) {
+        if (token.isEmpty()) {
             throw new NotFoundException("Token not found");
         }
 
-        if (now.isAfter(result.get().getExpireAt())) {
+        ConfirmationToken validatedToken = token.get();
+
+        if (now.isAfter(validatedToken.getExpireAt())) {
+            this.tokenRepository.deleteById(validatedToken.getId());
             throw new TokenExpiredException("This link is not valid anymore. Please sign in again in order to get a new one");
         }
 
-        return result.get();
+        return validatedToken;
     }
 }

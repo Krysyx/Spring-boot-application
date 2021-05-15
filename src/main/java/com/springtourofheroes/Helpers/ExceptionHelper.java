@@ -66,8 +66,8 @@ public class ExceptionHelper {
     @ExceptionHandler(TokenExpiredException.class)
     public ResponseEntity<ErrorHandlerDomain> handleTokenExpiredException(TokenExpiredException exception) {
         logger.error("Invalid token provided : " + exception.getMessage());
-        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "An invalid token was provided", HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        ErrorHandlerDomain error = new ErrorHandlerDomain(exception.getMessage(), "An invalid token was provided", HttpStatus.FORBIDDEN.value());
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(NotFoundException.class)
