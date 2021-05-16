@@ -14,15 +14,13 @@ public class ConfirmationToken {
     @NotNull
     private String token;
     @DateTimeFormat
-    private LocalDateTime createdAt;
+    private final static LocalDateTime createdAt = LocalDateTime.now();
     @DateTimeFormat
-    private LocalDateTime expireAt;
+    private final static LocalDateTime expireAt = LocalDateTime.now().plusHours(24);
     private String user_id;
 
-    public ConfirmationToken(@NotNull String token, LocalDateTime createdAt, LocalDateTime expireAt, String user_id) {
+    public ConfirmationToken(@NotNull String token, String user_id) {
         this.token = token;
-        this.createdAt = createdAt;
-        this.expireAt = expireAt;
         this.user_id = user_id;
     }
 
@@ -46,16 +44,8 @@ public class ConfirmationToken {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public LocalDateTime getExpireAt() {
         return expireAt;
-    }
-
-    public void setExpireAt(LocalDateTime expireAt) {
-        this.expireAt = expireAt;
     }
 
     public String getUser_id() {
