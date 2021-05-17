@@ -3,6 +3,7 @@ package com.springtourofheroes.Controllers;
 import com.springtourofheroes.Classes.AccountActivationEmail;
 import com.springtourofheroes.Classes.ConfirmationToken;
 import com.springtourofheroes.Classes.User;
+import com.springtourofheroes.Classes.ValidatedAccount;
 import com.springtourofheroes.Helpers.MailLinkGenerator;
 import com.springtourofheroes.Services.EmailService;
 import com.springtourofheroes.Services.RegisterService;
@@ -39,12 +40,12 @@ public class RegisterController {
     }
 
     @GetMapping("/verify")
-    public String verify(@NotNull @RequestParam String token) {
+    public ValidatedAccount verify(@NotNull @RequestParam String token) {
         ConfirmationToken confirmationToken = this.tokenService.verify(token);
         User user = this.registerService.findById(confirmationToken.getUser_id());
         user.setActivated(true);
-        this.registerService.validate(user);
-        return "Account successfully activated";
+        User validatedUser = this.registerService.validate(user);
+        return new ValidatedAccount(validatedUser);
     }
 
     @GetMapping("/validity/{token}")
