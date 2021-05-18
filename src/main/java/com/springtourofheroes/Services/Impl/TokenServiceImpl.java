@@ -48,4 +48,15 @@ public class TokenServiceImpl implements TokenService {
         Optional<ConfirmationToken> token = this.tokenRepository.findByToken(t);
         return token.isPresent();
     }
+
+    @Override
+    public ConfirmationToken findByToken(String t) {
+        Optional<ConfirmationToken> token = this.tokenRepository.findByToken(t);
+
+        if (token.isEmpty()) {
+            throw new NotFoundException("Token does not exist");
+        }
+
+        return token.get();
+    }
 }

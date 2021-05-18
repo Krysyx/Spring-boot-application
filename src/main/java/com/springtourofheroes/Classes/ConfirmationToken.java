@@ -16,7 +16,7 @@ public class ConfirmationToken {
     @DateTimeFormat
     private final static LocalDateTime createdAt = LocalDateTime.now();
     @DateTimeFormat
-    private final static LocalDateTime expireAt = LocalDateTime.now().plusHours(24);
+    private final static LocalDateTime expireAt = LocalDateTime.now().plusMinutes(1);
     private String user_id;
 
     public ConfirmationToken(@NotNull String token, String user_id) {

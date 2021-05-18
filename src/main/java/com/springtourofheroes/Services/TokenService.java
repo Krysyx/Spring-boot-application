@@ -11,4 +11,6 @@ public interface TokenService {
     ConfirmationToken verify(String token);
 
     boolean verifyTokenValidity(String token);
+
+    ConfirmationToken findByToken(String token);
 }
