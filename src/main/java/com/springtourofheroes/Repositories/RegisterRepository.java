@@ -11,4 +11,6 @@ public interface RegisterRepository extends MongoRepository<User, String> {
     User save(User user);
 
     Optional<User> findById(String id);
+
+    Optional<User> findByEmail(String email);
 }

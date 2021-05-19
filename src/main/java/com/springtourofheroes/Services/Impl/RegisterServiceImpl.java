@@ -44,4 +44,15 @@ public class RegisterServiceImpl implements RegisterService {
     public User validate(User user) {
         return this.registerRepository.save(user);
     }
+
+    @Override
+    public User findByEmail(String email) {
+        Optional<User> user = this.registerRepository.findByEmail(email);
+
+        if (user.isEmpty()) {
+            throw new NotFoundException("User does not exist");
+        }
+
+        return user.get();
+    }
 }

@@ -10,4 +10,6 @@ public interface RegisterService {
     User findById(String id);
 
     User validate(User user);
+
+    User findByEmail(String email);
 }

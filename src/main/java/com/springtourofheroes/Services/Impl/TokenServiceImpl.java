@@ -1,6 +1,7 @@
 package com.springtourofheroes.Services.Impl;
 
 import com.springtourofheroes.Classes.ConfirmationToken;
+import com.springtourofheroes.Classes.TokenValidity;
 import com.springtourofheroes.Classes.User;
 import com.springtourofheroes.Exceptions.NotFoundException;
 import com.springtourofheroes.Exceptions.TokenExpiredException;
@@ -19,8 +20,8 @@ public class TokenServiceImpl implements TokenService {
     private TokenRepository tokenRepository;
 
     @Override
-    public ConfirmationToken createToken(User user) {
-        ConfirmationToken token = new ConfirmationToken(RandomStringGenerator.generateString(), user.getId());
+    public ConfirmationToken createToken(String id) {
+        ConfirmationToken token = new ConfirmationToken(RandomStringGenerator.generateString(), id);
         return this.tokenRepository.save(token);
     }
 
@@ -44,9 +45,14 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public boolean verifyTokenValidity(String t) {
+    public ConfirmationToken verifyTokenValidity(String t) {
         Optional<ConfirmationToken> token = this.tokenRepository.findByToken(t);
-        return token.isPresent();
+
+        if(token.isEmpty()) {
+            throw new NotFoundException("Invalid token");
+        }
+
+        return token.get();
     }
 
     @Override

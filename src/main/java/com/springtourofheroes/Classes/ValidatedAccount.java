@@ -2,7 +2,7 @@ package com.springtourofheroes.Classes;
 
 public class ValidatedAccount {
     private User user;
-    private static final String message = "Account successfully activated";
+    private static final String MESSAGE = "Account successfully activated";
 
     public ValidatedAccount(User user) {
         this.user = user;
@@ -13,6 +13,6 @@ public class ValidatedAccount {
     }
 
     public String getMessage() {
-        return message;
+        return MESSAGE;
     }
 }

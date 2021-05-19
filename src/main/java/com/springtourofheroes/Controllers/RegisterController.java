@@ -1,9 +1,6 @@
 package com.springtourofheroes.Controllers;
 
-import com.springtourofheroes.Classes.AccountActivationEmail;
-import com.springtourofheroes.Classes.ConfirmationToken;
-import com.springtourofheroes.Classes.User;
-import com.springtourofheroes.Classes.ValidatedAccount;
+import com.springtourofheroes.Classes.*;
 import com.springtourofheroes.Helpers.MailLinkGenerator;
 import com.springtourofheroes.Services.EmailService;
 import com.springtourofheroes.Services.RegisterService;
@@ -33,7 +30,7 @@ public class RegisterController {
     @PostMapping("/create")
     public String register(@Valid @RequestBody User user) throws MessagingException {
         User createdUser = this.registerService.register(user);
-        ConfirmationToken createdToken = this.tokenService.createToken(createdUser);
+        ConfirmationToken createdToken = this.tokenService.createToken(createdUser.getId());
         AccountActivationEmail email = new AccountActivationEmail(createdUser.getEmail(), mailLinkGenerator.getEmailLink(createdToken.getToken()));
         this.emailService.sendMessage(email);
         return "Account " + createdUser.getUsername() + " successfully created. Please verify your email to activate your account";
@@ -49,17 +46,17 @@ public class RegisterController {
     }
 
     @GetMapping("/validity/{token}")
-    public boolean verifyTokenValidity(@PathVariable String token) {
-        return this.tokenService.verifyTokenValidity(token);
+    public String verifyTokenValidity(@PathVariable String token) {
+        ConfirmationToken validatedToken = this.tokenService.verifyTokenValidity(token);
+        return validatedToken.getUser_id();
     }
 
     @PostMapping("/refresh_token")
-    public String refreshToken(@NotNull @RequestParam String token) throws MessagingException {
-        ConfirmationToken recoveredToken = this.tokenService.findByToken(token);
-        User user = this.registerService.findById(recoveredToken.getUser_id());
-        ConfirmationToken createdToken = this.tokenService.createToken(user);
-        AccountActivationEmail email = new AccountActivationEmail(user.getEmail(), mailLinkGenerator.getEmailLink(createdToken.getToken()));
-        this.emailService.sendMessage(email);
+    public String refreshToken(@NotNull @RequestParam String email) throws MessagingException {
+        User user = this.registerService.findByEmail(email);
+        ConfirmationToken createdToken = this.tokenService.createToken(user.getId());
+        AccountActivationEmail emailActivation = new AccountActivationEmail(user.getEmail(), mailLinkGenerator.getEmailLink(createdToken.getToken()));
+        this.emailService.sendMessage(emailActivation);
         return "A new activation link has been sent to your email";
     }
 }
