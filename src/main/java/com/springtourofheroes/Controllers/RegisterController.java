@@ -46,9 +46,9 @@ public class RegisterController {
     }
 
     @GetMapping("/validity/{token}")
-    public String verifyTokenValidity(@PathVariable String token) {
+    public ValidatedToken verifyTokenValidity(@PathVariable String token) {
         ConfirmationToken validatedToken = this.tokenService.verifyTokenValidity(token);
-        return validatedToken.getUser_id();
+        return new ValidatedToken(validatedToken.getUser_id());
     }
 
     @PostMapping("/refresh_token")
