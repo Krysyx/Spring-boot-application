@@ -39,7 +39,7 @@ public class RegisterController {
     @GetMapping("/verify")
     public ValidatedAccount verify(@NotNull @RequestParam String token) {
         ConfirmationToken confirmationToken = this.tokenService.verify(token);
-        User user = this.registerService.findById(confirmationToken.getUser_id());
+        User user = this.registerService.findById(confirmationToken.getUserId());
         user.setActivated(true);
         User validatedUser = this.registerService.validate(user);
         return new ValidatedAccount(validatedUser);
@@ -48,7 +48,7 @@ public class RegisterController {
     @GetMapping("/validity/{token}")
     public ValidatedToken verifyTokenValidity(@PathVariable String token) {
         ConfirmationToken validatedToken = this.tokenService.verifyTokenValidity(token);
-        return new ValidatedToken(validatedToken.getUser_id());
+        return new ValidatedToken(validatedToken.getUserId());
     }
 
     @PostMapping("/refresh_token")
