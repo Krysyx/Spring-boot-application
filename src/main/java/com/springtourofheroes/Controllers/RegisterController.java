@@ -52,8 +52,8 @@ public class RegisterController {
     }
 
     @PostMapping("/refresh_token")
-    public String refreshToken(@NotNull @RequestParam String email) throws MessagingException {
-        User user = this.registerService.findByEmail(email);
+    public String refreshToken(@NotNull @RequestParam String userId) throws MessagingException {
+        User user = this.registerService.findById(userId);
         ConfirmationToken createdToken = this.tokenService.createToken(user.getId());
         AccountActivationEmail emailActivation = new AccountActivationEmail(user.getEmail(), mailLinkGenerator.getEmailLink(createdToken.getToken()));
         this.emailService.sendMessage(emailActivation);
